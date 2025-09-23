@@ -46,7 +46,7 @@ export const addUser = async (values: z.infer<typeof addUserSchema>) => {
     method: "POST",
     body: formData,
   });
-   revalidatePath(ENDPOINTS.users);
+  revalidatePath(ENDPOINTS.users);
   return {
     status: response.status,
     message: response.message.toString(),
@@ -65,8 +65,10 @@ export const updateUser = async (values: z.infer<typeof editUserSchema>) => {
   const formData = new FormData();
   for (const [key, value] of Object.entries(values)) {
     if (key === "roles") continue;
-    if (value instanceof File) {
-      formData.append(key, value);
+    if (key === "image") {
+      if (value instanceof File) {
+        formData.append(key, value);
+      }
     } else {
       formData.append(key, value as string);
     }

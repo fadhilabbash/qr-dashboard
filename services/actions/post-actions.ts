@@ -28,7 +28,7 @@ export const addPost = async (values: z.infer<typeof addPostSchema>) => {
   for (const [key, value] of Object.entries(values)) {
     formData.append(key, value as string);
   }
-
+console.log(formData);
   const endpoint = ENDPOINTS.createPost;
   const response = await apiClientAuth<Post>(endpoint, {
     method: "POST",

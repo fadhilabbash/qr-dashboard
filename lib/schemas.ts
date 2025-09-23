@@ -110,12 +110,20 @@ export const editVideoSchema = baseVideoSchema.extend({
 const basePostSchema = z.object({
   title: z.string().min(1, "العنوان مطلوب"),
   text: z.string().nullable().optional(),
-  image_url: z.string().url("رابط الصورة غير صالح").nullable().optional(),
+  image_url: z
+    .string()
+    .nullable() 
+    .refine((val) => val !== null && val !== "", {
+      message: "رابط الصورة مطلوب",
+    })
+    .refine((val) => !val || /^https?:\/\/.+$/.test(val), {
+      message: "رابط الصورة غير صالح",
+    }),
   image_name: z.string().nullable().optional(),
   date: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "التاريخ غير صالح",
   }),
-  tag_id: z.string({ message: "التصنيف غير صالح" }),
+  tag_id: z.string().trim().nonempty("التصنيف غير صالح"),
 });
 export const addPostSchema = basePostSchema;
 export const editPostSchema = basePostSchema.extend({
@@ -126,7 +134,7 @@ export const editPostSchema = basePostSchema.extend({
 const baseArticleSchema = z.object({
   title: z.string().min(1, "العنوان مطلوب"),
   text: z.string().min(1, "النص مطلوب"),
-  image_url: z.string().url("رابط الصورة غير صالح").nullable().optional(),
+  image_url: z.string().url("رابط الصورة غير صالح"),
   image_name: z.string().nullable().optional(),
   date: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "التاريخ غير صالح",

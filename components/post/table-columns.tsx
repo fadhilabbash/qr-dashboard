@@ -7,6 +7,8 @@ import DeleteDialog from "../common/delete-dialog";
 import { ErrorToast, SuccessToast } from "../common/notification";
 import EditPost from "./edit-post";
 import { deletePost } from "@/services/actions/post-actions";
+import { TableRowImage } from "../common/table-row-image";
+import { avatar } from "@/lib/placeholder";
 
 // Columns definition
 export const tableColumns: ColumnDef<Post>[] = [
@@ -31,6 +33,15 @@ export const tableColumns: ColumnDef<Post>[] = [
     meta: { displayName: "العنوان" },
   },
   {
+    accessorKey: "image",
+    header: "الصورة",
+    meta: { displayName: "الصورة" },
+    cell: ({ row }) => {
+      const imageUrl = row.original.image_url ? row.original.image_url : avatar;
+      return <TableRowImage src={imageUrl} alt="@OW" fallback="OW" />;
+    },
+  },
+  {
     id: "actions",
     header: "الإجراءات",
     meta: { displayName: "الإجراءات" },
@@ -38,7 +49,7 @@ export const tableColumns: ColumnDef<Post>[] = [
       const tags = table.options.meta?.exData as Tag[];
       return (
         <div className="flex items-center gap-2">
-         <EditPost row={row.original} tagOptions={tags ?? []} />
+          <EditPost row={row.original} tagOptions={tags ?? []} />
           <div className="ps-2">
             <DeleteDialog
               icon={<Trash2 className="h-4 w-4" />}

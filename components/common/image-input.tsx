@@ -1,34 +1,32 @@
-import { Pencil, Trash2 } from "lucide-react";
+"use client";
+
+import { FolderOpen, Trash2 } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 interface ImageInputProps {
   value?: string | File | null;
   onChange?: (value: string | File | null) => void;
-  placeholder?: string;
-  size?: string;
 }
 
-const ImageInput: React.FC<ImageInputProps> = ({
-  value,
-  onChange,
-  placeholder = "/imgs/imageInputPlaceholder.png",
-  size = "6",
-}) => {
-  const [preview, setPreview] = useState<string>(placeholder);
-  const imageInputRef = useRef<HTMLInputElement>(null);
+const ImageInput: React.FC<ImageInputProps> = ({ value, onChange }) => {
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const baseFileUrl = process.env.NEXT_PUBLIC_FILE_URL;
+
   useEffect(() => {
     if (value instanceof File) {
-      setPreview(URL.createObjectURL(value));
-    } else if (typeof value === "string" && value) {
-      // If backend sends an existing image URL
+      const url = URL.createObjectURL(value);
+      setPreview(url);
+      return () => URL.revokeObjectURL(url);
+    } else if (typeof value === "string") {
       setPreview(baseFileUrl + value);
     } else {
-      setPreview(placeholder);
+      setPreview(null);
     }
-  }, [value, placeholder, baseFileUrl]);
+  }, [value, baseFileUrl]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -37,57 +35,63 @@ const ImageInput: React.FC<ImageInputProps> = ({
 
   const handleClear = () => {
     onChange?.(null);
-    if (imageInputRef.current) {
-      imageInputRef.current.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
-  const handleEdit = () => {
-    imageInputRef.current?.click();
+  const handleBrowse = () => {
+    fileInputRef.current?.click();
   };
 
   return (
-    <div className="mb-2 flex flex-col items-start">
-      <div
-        className="group relative flex  mb-2"
-        style={{ width: `${size}rem`, height: `${size}rem` }}
-      >
-        <div
-          className="group relative flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-cover bg-center border  border-gray-300 shadow-sm"
-          style={{ backgroundImage: `url('${preview}')` }}
-        >
-          <div className="absolute bottom-0 left-0 right-0 flex w-full items-center justify-between p-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+    <div className="flex flex-col gap-2 w-1/2 border p-1 rounded-lg">
+      <div className="w-full h-[8rem] rounded-t-lg border border-dashed flex flex-col justify-center items-center">
+        {preview ? (
+          <Image
+            src={preview}
+            alt="Preview"
+            className="w-full h-[8rem] object-cover rounded-lg"
+            width={120}
+            height={120}
+            unoptimized
+          />
+        ) : (
+          <>
+            <FolderOpen className="text-muted-foreground mb-2 h-8 w-8" />
+            <p className="text-muted-foreground text-sm">حمل ملف الصورة</p>
             <Button
               type="button"
-              variant="ghost"
-              size="icon"
-              onClick={handleEdit}
-              className="h-8 w-8 rounded-md bg-gray-200 hover:bg-gray-300"
+              onClick={handleBrowse}
+              variant="link"
+              className="cursor-pointer "
             >
-              <Pencil size={16} />
+              تصفح
             </Button>
-
-            {preview !== placeholder && (
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={handleClear}
-                className="h-8 w-8 rounded-md bg-gray-200 hover:bg-gray-300"
-              >
-                <Trash2 size={16} />
-              </Button>
-            )}
-          </div>
+          </>
+        )}
+      </div>
+      {/* File input element using React ref */}
+      <Input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+      {/* Button to trigger the upload process */}
+      <div className="border rounded-t-lg p-1 flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <Button
+            type="button"
+            onClick={handleClear}
+            variant="secondary"
+            size="icon"
+            className="size-8 cursor-pointer"
+          >
+            <Trash2 />
+          </Button>
         </div>
       </div>
-      <Input
-        ref={imageInputRef}
-        type="file"
-        accept="image/jpeg, image/jpg, image/png"
-        onChange={handleFileChange}
-        className="hidden"
-      />
     </div>
   );
 };
