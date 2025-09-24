@@ -79,18 +79,18 @@ const ImageInput: React.FC<ImageInputProps> = ({ value, onChange }) => {
         onChange={handleFileChange}
       />
       {/* Button to trigger the upload process */}
+      
       <div className="border rounded-t-lg p-1 flex flex-col gap-2">
-        <div className="flex items-center justify-between">
           <Button
             type="button"
             onClick={handleClear}
             variant="secondary"
             size="icon"
             className="size-8 cursor-pointer"
+            disabled={!preview}
           >
             <Trash2 />
           </Button>
-        </div>
       </div>
     </div>
   );

@@ -38,6 +38,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Textarea } from "../ui/textarea";
+import ImageKit from "../common/image-kit/image-kit-input";
 
 interface UpdateArticleProps {
   row: Article;
@@ -51,6 +53,7 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
     resolver: zodResolver(editArticleSchema),
     defaultValues: {
       id: row.id,
+        image_url: row.image_url ?? undefined,
       title: row.title,
       text: row.text,
       date: row.date,
@@ -90,21 +93,36 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <input type="hidden" {...form.register("id")} />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+             <div className="grid w-full max-w-sm items-center gap-1.5">
               <FormField
                 control={form.control}
-                name="title"
+                name="image_url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>العنوان</FormLabel>
+                    <FormLabel>الصورة</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <ImageKit {...field} folder="posts" />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
+            </div>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>العنوان</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="date"
@@ -119,6 +137,7 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="tag_id"
@@ -147,6 +166,25 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
                 )}
               />
             </div>
+
+              <FormField
+              control={form.control}
+              name="text"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>النص</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      value={field.value ?? ""}
+                      className="resize-none h-[8rem] overflow-y-auto"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DialogFooter>
               <Button type="submit" disabled={isPending} className="ml-2 mt-2">
                 {isPending ? (

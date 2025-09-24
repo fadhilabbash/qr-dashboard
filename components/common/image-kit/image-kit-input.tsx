@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { authenticator } from "./authenticator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FolderOpen, Trash2, UploadCloud } from "lucide-react";
+import { CheckCircle, FolderOpen, Trash2, UploadCloud } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import { ErrorToast } from "../notification";
@@ -191,12 +191,13 @@ const ImageKit: React.FC<ImageKitProps> = ({ value, onChange, folder }) => {
             variant="secondary"
             size="icon"
             className="size-8 cursor-pointer"
+            disabled={!preview}
           >
-            <UploadCloud />
+            <UploadCloud size={24} color="blue" />
           </Button>
           {uploadedUrl ? (
             <>
-              <p className="text-xs"> تم الرفع بنجاح</p>
+              <CheckCircle size={18} color="green" />
             </>
           ) : null}
 
@@ -206,8 +207,9 @@ const ImageKit: React.FC<ImageKitProps> = ({ value, onChange, folder }) => {
             variant="secondary"
             size="icon"
             className="size-8 cursor-pointer"
+            disabled={!preview}
           >
-            <Trash2 />
+            <Trash2 size={24} color="red" />
           </Button>
         </div>
         <Progress value={progress} className="w-full h-[2px]" />

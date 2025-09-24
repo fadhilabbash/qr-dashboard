@@ -53,10 +53,10 @@ const EditPost = ({ row, tagOptions }: UpdatePostProps) => {
     resolver: zodResolver(editPostSchema),
     defaultValues: {
       id: row.id,
+      image_url: row.image_url ?? undefined,
       title: row.title,
       text: row.text,
       date: row.date,
-      image_url: row.image_url ?? undefined,
       tag_id: row.tag.id.toString(),
     },
   });

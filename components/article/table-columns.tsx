@@ -7,6 +7,8 @@ import DeleteDialog from "../common/delete-dialog";
 import { ErrorToast, SuccessToast } from "../common/notification";
 import EditArticle from "./edit-article";
 import { deleteArticle } from "@/services/actions/article-actions";
+import { TableRowImage } from "../common/table-row-image";
+import { avatar } from "@/lib/placeholder";
 
 
 // Columns definition
@@ -31,6 +33,15 @@ export const tableColumns: ColumnDef<Article>[] = [
     header: "التاريخ",
     meta: { displayName: "العنوان" },
   },
+    {
+      accessorKey: "image",
+      header: "الصورة",
+      meta: { displayName: "الصورة" },
+      cell: ({ row }) => {
+        const imageUrl = row.original.image_url ? row.original.image_url : avatar;
+        return <TableRowImage src={imageUrl} alt="@OW" fallback="OW" />;
+      },
+    },
   {
     id: "actions",
     header: "الإجراءات",

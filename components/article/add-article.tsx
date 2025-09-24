@@ -38,6 +38,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import ImageKit from "../common/image-kit/image-kit-input";
+import { Textarea } from "../ui/textarea";
 
 interface AddArticleProps {
   tagOptions: Tag[];
@@ -49,6 +51,7 @@ const AddArticle = ({ tagOptions }: AddArticleProps) => {
   const form = useForm<z.infer<typeof addArticleSchema>>({
     resolver: zodResolver(addArticleSchema),
     defaultValues: {
+      image_url: undefined,
       title: "",
       text: "",
       date: "",
@@ -86,35 +89,36 @@ const AddArticle = ({ tagOptions }: AddArticleProps) => {
         </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <FormField
+                control={form.control}
+                name="image_url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>الصورة</FormLabel>
+                    <FormControl>
+                      <ImageKit {...field} folder="posts" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>العنوان</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>العنوان</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="text"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>النص</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="date"
@@ -158,6 +162,25 @@ const AddArticle = ({ tagOptions }: AddArticleProps) => {
                 )}
               />
             </div>
+
+              <FormField
+              control={form.control}
+              name="text"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>النص</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      value={field.value ?? ""}
+                      className="resize-none h-[8rem] overflow-y-auto"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DialogFooter>
               <Button type="submit" disabled={isPending} className="ml-2 mt-2">
                 {isPending ? (
