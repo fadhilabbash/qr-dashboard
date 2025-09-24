@@ -19,7 +19,7 @@ export const tableColumns: ColumnDef<Tag>[] = [
   {
     accessorKey: "name",
     header: "الاسم",
-    meta: { displayName: "العنوان" },
+    meta: { displayName: "الاسم" },
   },
   {
     accessorKey: "type",

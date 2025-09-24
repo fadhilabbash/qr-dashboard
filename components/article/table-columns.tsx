@@ -26,12 +26,12 @@ export const tableColumns: ColumnDef<Article>[] = [
   {
     accessorKey: "tag.name",
     header: "الصنف",
-    meta: { displayName: "العنوان" },
+    meta: { displayName: "الصنف" },
   },
   {
     accessorKey: "date",
     header: "التاريخ",
-    meta: { displayName: "العنوان" },
+    meta: { displayName: "التاريخ" },
   },
     {
       accessorKey: "image",
