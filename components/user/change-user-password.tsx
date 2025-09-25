@@ -73,7 +73,7 @@ const ChangeUserPassword = ({ row }: ChangeUserPasswordProps) => {
           تغيير كلمة المرور
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>تغيير كلمة المرور</DialogTitle>
         </DialogHeader>

@@ -7,19 +7,23 @@ import { auth } from "@/auth";
 import { getTagsByType } from "@/services/actions/tag-actions";
 import { getArticles } from "@/services/actions/article-actions";
 import AddArticle from "@/components/article/add-article";
+import { TagType } from "@/lib/definitions";
+import { FilterInput } from "@/components/common/filter-input";
 
 interface SearchParamsProps {
   searchParams?: Promise<{
     page?: string;
     search?: string;
+    tag?: number;
   }>;
 }
 const ArticlesPage = async ({ searchParams }: SearchParamsProps) => {
   const params = await searchParams;
   const term = params?.search ?? "";
+  const tag = params?.tag ?? 0;
   const currentPage = Number(params?.page) || 1;
-  const ArticlesResponse = await getArticles(currentPage, term);
-  const tagsResponse = await getTagsByType("Article");
+  const ArticlesResponse = await getArticles(currentPage, term, tag);
+  const tagsResponse = await getTagsByType(TagType.Article);
   if (ArticlesResponse.status === "error" || tagsResponse.status === "error") {
     return (
       <div className="flex items-center justify-center  min-h-screen">
@@ -50,6 +54,7 @@ const ArticlesPage = async ({ searchParams }: SearchParamsProps) => {
             >
               <AddArticle tagOptions={tagsResponse.data} />
               <SearchInput />
+              <FilterInput tagOptions={tagsResponse.data} />
             </DataTable>
           </div>
 

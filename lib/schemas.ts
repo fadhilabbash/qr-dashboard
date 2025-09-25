@@ -153,3 +153,26 @@ export const addArticleSchema = baseArticleSchema;
 export const editArticleSchema = basePostSchema.extend({
   id: z.number(),
 });
+// 📌 Report schema
+export const reportSchema = z
+  .object({
+    from_date: z
+      .string()
+      .min(1, "تاريخ البداية مطلوب")
+      .refine((val) => !isNaN(Date.parse(val)), {
+        message: "تاريخ البداية غير صالح",
+      }),
+    to_date: z
+      .string()
+      .min(1, "تاريخ النهاية مطلوب")
+      .refine((val) => !isNaN(Date.parse(val)), {
+        message: "تاريخ النهاية غير صالح",
+      }),
+  })
+  .refine(
+    (data) => new Date(data.to_date) >= new Date(data.from_date),
+    {
+      message: "تاريخ النهاية يجب أن يكون بعد أو يساوي تاريخ البداية",
+      path: ["to_date"], // attach error to 'to_date'
+    }
+  );

@@ -55,7 +55,10 @@ const AddVideo = ({ tagOptions }: AddVideoProps) => {
       tag_id: "",
     },
   });
-
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+    form.reset();
+  };
   const onSubmit = (values: z.infer<typeof addVideoSchema>) => {
     startTransition(async () => {
       const result = await addVideo(values);
@@ -71,13 +74,13 @@ const AddVideo = ({ tagOptions }: AddVideoProps) => {
     });
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <PlusCircle /> اضافة
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>اضافة</DialogTitle>
         </DialogHeader>

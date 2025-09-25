@@ -83,7 +83,7 @@ const EditPost = ({ row, tagOptions }: UpdatePostProps) => {
           تعديل
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>تعديل</DialogTitle>
         </DialogHeader>

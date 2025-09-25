@@ -1,8 +1,37 @@
+import { auth } from "@/auth";
+import HomeChart from "@/components/home/home-chart";
+import { getReportLastThreeMonths } from "@/services/actions/report-actions";
 
-export default function HomePage() {
+const HomePage = async () => {
+  const response = await getReportLastThreeMonths();
+
+  if (response.status === "error") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500">فشل في تحميل البيانات</p>
+      </div>
+    );
+  }
+  const session = await auth();
+
   return (
-    <div className="min-h-[90%] flex  items-center justify-center">
-      <div className="bg-[url('/imgs/logo.png')] h-96 w-96 bg-cover bg-center pointer-events-none"></div>
+    <div className="grid grid-cols-1 gap-4 p-2">
+      {session?.user.user_info?.roles[0].name !== "admin" && (
+        <div className="p-4 bg-yellow-100 text-yellow-800 rounded-md">
+          <p>
+            تنبيه: ليس لديك صلاحيات المسؤول للوصول إلى جميع ميزات إدارة
+            المستخدمين.
+          </p>
+        </div>
+      )}
+
+      {session?.user.user_info?.roles[0].name === "admin" && (
+        <div>
+          <HomeChart data={response.data} />
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default HomePage;

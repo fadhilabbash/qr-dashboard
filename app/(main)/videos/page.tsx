@@ -6,19 +6,23 @@ import { auth } from "@/auth";
 import { getVideos } from "@/services/actions/video-actions";
 import { getTagsByType } from "@/services/actions/tag-actions";
 import AddVideo from "@/components/video/add-video";
+import { TagType } from "@/lib/definitions";
+import { FilterInput } from "@/components/common/filter-input";
 
 interface SearchParamsProps {
   searchParams?: Promise<{
     page?: string;
     search?: string;
+    tag?: number;
   }>;
 }
 const VideosPage = async ({ searchParams }: SearchParamsProps) => {
   const params = await searchParams;
   const term = params?.search ?? "";
+  const tag = params?.tag ?? 0;
   const currentPage = Number(params?.page) || 1;
-  const videosResponse = await getVideos(currentPage, term);
-  const tagsResponse = await getTagsByType("video");
+  const videosResponse = await getVideos(currentPage, term, tag);
+  const tagsResponse = await getTagsByType(TagType.Video);
   if (videosResponse.status === "error" || tagsResponse.status === "error") {
     return (
       <div className="flex items-center justify-center  min-h-screen">
@@ -49,6 +53,7 @@ const VideosPage = async ({ searchParams }: SearchParamsProps) => {
             >
               <AddVideo tagOptions={tagsResponse.data} />
               <SearchInput />
+              <FilterInput tagOptions={tagsResponse.data} />
             </DataTable>
           </div>
 

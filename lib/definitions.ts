@@ -10,13 +10,11 @@ export interface Image {
   image_url: string;
 }
 
-type Pagination = {
-  total: number;
-  count: number;
-  per_page: number;
-  current_page: number;
-  total_pages: number;
-};
+export enum TagType {
+  Post = "post",
+  Video = "video",
+  Article = "article",
+}
 export interface Role {
   id: number;
   name: string;
@@ -71,7 +69,23 @@ export interface Article {
   tag: Tag;
   tag_id: string;
 }
+export interface Report {
+  from_date: Date;
+  to_date: Date;
+}
+export interface ReportData {
+  posts: number;
+  articles: number;
+  videos: number;
+}
 
+type Pagination = {
+  total: number;
+  count: number;
+  per_page: number;
+  current_page: number;
+  total_pages: number;
+};
 export type SuccessResponse<T> = {
   status: "success";
   message: string;

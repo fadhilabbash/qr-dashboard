@@ -17,6 +17,7 @@ export const breadcrumbMapping: Record<string, string> = {
   videos: "الفديوهات",
   posts: "المنشورات",
   articles: "المنشورات",
+  reports: "التقارير",
 };
 export const getBreadcrumbLabel = (key: string): string => {
   return breadcrumbMapping[key] || key;

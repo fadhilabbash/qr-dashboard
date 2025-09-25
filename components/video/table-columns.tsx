@@ -7,6 +7,8 @@ import DeleteDialog from "../common/delete-dialog";
 import { ErrorToast, SuccessToast } from "../common/notification";
 import EditVideo from "./edit-video";
 import { deleteVideo } from "@/services/actions/video-actions";
+import ShowVideo from "./show-video";
+import { TableRowImage } from "../common/table-row-image";
 
 // Columns definition
 export const tableColumns: ColumnDef<Video>[] = [
@@ -30,10 +32,20 @@ export const tableColumns: ColumnDef<Video>[] = [
     header: "الصنف",
     meta: { displayName: "العنوان" },
   },
+
   {
     accessorKey: "date",
     header: "التاريخ",
     meta: { displayName: "العنوان" },
+  },
+  {
+    accessorKey: "image",
+    header: "الصورة",
+    meta: { displayName: "الصورة" },
+    cell: ({ row }) => {
+      const thumbnailUrl = `https://img.youtube.com/vi/${row.original.video_id}/default.jpg`;
+      return <TableRowImage src={thumbnailUrl} alt="@OW" fallback="OW" />;
+    },
   },
   {
     id: "actions",
@@ -44,6 +56,7 @@ export const tableColumns: ColumnDef<Video>[] = [
       return (
         <div className="flex items-center gap-2">
           <EditVideo row={row.original} tagOptions={tags ?? []} />
+          <ShowVideo row={row.original} />
           <div className="ps-2">
             <DeleteDialog
               icon={<Trash2 className="h-4 w-4" />}

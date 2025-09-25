@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { tagsOptions } from "@/lib/placeholder";
+import { tagTypeOptions } from "@/lib/placeholder";
 import {
   Dialog,
   DialogClose,
@@ -49,7 +49,10 @@ const AddTag = () => {
       type: "",
     },
   });
-
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+    form.reset();
+  };
   const onSubmit = (values: z.infer<typeof addTagSchema>) => {
     startTransition(async () => {
       const result = await addTag(values);
@@ -65,13 +68,13 @@ const AddTag = () => {
     });
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <PlusCircle /> اضافة
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>اضافة</DialogTitle>
         </DialogHeader>
@@ -111,7 +114,7 @@ const AddTag = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {tagsOptions.map((tag) => (
+                        {tagTypeOptions.map((tag) => (
                           <SelectItem key={tag.value} value={tag.value}>
                             {tag.label}
                           </SelectItem>

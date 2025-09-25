@@ -1,8 +1,5 @@
-import { Home, Users, 
-  Tag,
-  Video,
-  FileText,
-  BookOpen, } from "lucide-react";
+import { Home, Users, Tag, Video, FileText, BookOpen, BarChart2 } from "lucide-react";
+import { TagType } from "./definitions";
 
 //Constants data here. static data ...
 export const emptyImage = "/images/empty.jpg";
@@ -38,11 +35,14 @@ export const sidebarLinks = [
     url: "/articles",
     icon: BookOpen,
   },
+  {
+    title: "التقارير",
+    url: "/reports",
+    icon: BarChart2,
+  },
 ];
-
-
-export const tagsOptions = [
-  { value: "post", label: "منشور" },
-  { value: "video", label: "فديو" },
-  { value: "article", label: "مقال" },
+export const tagTypeOptions = [
+  { value: TagType.Post, label: "منشور" },
+  { value: TagType.Video, label: "فديو" },
+  { value: TagType.Article, label: "مقال" },
 ];

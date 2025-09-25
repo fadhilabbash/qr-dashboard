@@ -58,7 +58,10 @@ const AddArticle = ({ tagOptions }: AddArticleProps) => {
       tag_id: "",
     },
   });
-
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+    form.reset();
+  };
   const onSubmit = (values: z.infer<typeof addArticleSchema>) => {
     startTransition(async () => {
       const result = await addArticle(values);
@@ -74,13 +77,13 @@ const AddArticle = ({ tagOptions }: AddArticleProps) => {
     });
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <PlusCircle /> اضافة
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>اضافة</DialogTitle>
         </DialogHeader>
@@ -163,7 +166,7 @@ const AddArticle = ({ tagOptions }: AddArticleProps) => {
               />
             </div>
 
-              <FormField
+            <FormField
               control={form.control}
               name="text"
               render={({ field }) => (

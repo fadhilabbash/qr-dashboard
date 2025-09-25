@@ -7,9 +7,18 @@ import { addVideoSchema, editVideoSchema } from "@/lib/schemas";
 import z from "zod";
 
 //Get  Video
-export const getVideos = async (page: number = 1, term: string = "") => {
-  const params = new URLSearchParams({ page: page.toString(), search: term });
+export const getVideos = async (
+  page: number = 1,
+  term: string = "",
+  tag: number = 0
+) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    search: term,
+    tag: tag.toString(),
+  });
   const endpoint = `${ENDPOINTS.videos}?${params.toString()}`;
+  console.log(endpoint);
   const response = await apiClientAuth<Video[]>(endpoint, { method: "GET" });
   return response;
 };

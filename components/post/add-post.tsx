@@ -58,7 +58,10 @@ const AddPost = ({ tagOptions }: AddPostProps) => {
       tag_id: "",
     },
   });
-
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+    form.reset();
+  };
   const onSubmit = (values: z.infer<typeof addPostSchema>) => {
     console.log(values);
     startTransition(async () => {
@@ -75,13 +78,13 @@ const AddPost = ({ tagOptions }: AddPostProps) => {
     });
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline">
           <PlusCircle /> اضافة
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>اضافة</DialogTitle>
         </DialogHeader>
@@ -98,7 +101,7 @@ const AddPost = ({ tagOptions }: AddPostProps) => {
                   <FormItem>
                     <FormLabel>الصورة</FormLabel>
                     <FormControl>
-                      <ImageKit {...field} folder="posts"/>
+                      <ImageKit {...field} folder="posts" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

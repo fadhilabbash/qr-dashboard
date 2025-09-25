@@ -80,7 +80,7 @@ const EditVideo = ({ row, tagOptions }: UpdateVideoProps) => {
           تعديل
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>تعديل</DialogTitle>
         </DialogHeader>

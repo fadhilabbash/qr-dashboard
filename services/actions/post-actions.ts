@@ -7,8 +7,16 @@ import { addPostSchema, editPostSchema } from "@/lib/schemas";
 import z from "zod";
 
 //Get  Post
-export const getPosts = async (page: number = 1, term: string = "") => {
-  const params = new URLSearchParams({ page: page.toString(), search: term });
+export const getPosts = async (
+  page: number = 1,
+  term: string = "",
+  tag: number = 0
+) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    search: term,
+    tag: tag.toString(),
+  });
   const endpoint = `${ENDPOINTS.posts}?${params.toString()}`;
   const response = await apiClientAuth<Post[]>(endpoint, { method: "GET" });
   return response;
@@ -28,7 +36,6 @@ export const addPost = async (values: z.infer<typeof addPostSchema>) => {
   for (const [key, value] of Object.entries(values)) {
     formData.append(key, value as string);
   }
-console.log(formData);
   const endpoint = ENDPOINTS.createPost;
   const response = await apiClientAuth<Post>(endpoint, {
     method: "POST",

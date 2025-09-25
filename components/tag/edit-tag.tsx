@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Edit, Loader2} from "lucide-react";
+import { Edit, Loader2 } from "lucide-react";
 import { ErrorToast, SuccessToast } from "@/components/common/notification";
 import {
   Form,
@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { tagsOptions } from "@/lib/placeholder";
+import { tagTypeOptions } from "@/lib/placeholder";
 import {
   Dialog,
   DialogClose,
@@ -77,7 +77,7 @@ const EditTag = ({ row }: UpdateTagProps) => {
           تعديل
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[720px]">
         <DialogHeader>
           <DialogTitle>تعديل</DialogTitle>
         </DialogHeader>
@@ -86,7 +86,7 @@ const EditTag = ({ row }: UpdateTagProps) => {
         </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <input type="hidden" {...form.register("id")} />
+            <input type="hidden" {...form.register("id")} />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
@@ -118,7 +118,7 @@ const EditTag = ({ row }: UpdateTagProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {tagsOptions.map((tag) => (
+                        {tagTypeOptions.map((tag) => (
                           <SelectItem key={tag.value} value={tag.value}>
                             {tag.label}
                           </SelectItem>

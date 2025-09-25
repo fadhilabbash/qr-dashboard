@@ -41,4 +41,7 @@ export const ENDPOINTS = {
   updateArticle: (id: number | string) => `/articles/${id}`,
   getArticle: (id: number | string) => `/articles/${id}`,
   deleteArticle: (id: number | string) => `/articles/${id}`,
+  
+  //Report
+  report: "/report",
 };

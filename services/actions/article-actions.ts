@@ -7,8 +7,16 @@ import { addArticleSchema, editArticleSchema } from "@/lib/schemas";
 import z from "zod";
 
 //Get  Article
-export const getArticles = async (page: number = 1, term: string = "") => {
-  const params = new URLSearchParams({ page: page.toString(), search: term });
+export const getArticles = async (
+  page: number = 1,
+  term: string = "",
+  tag: number = 0
+) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    search: term,
+    tag: tag.toString(),
+  });
   const endpoint = `${ENDPOINTS.articles}?${params.toString()}`;
   const response = await apiClientAuth<Article[]>(endpoint, { method: "GET" });
   return response;
@@ -42,7 +50,9 @@ export const addArticle = async (values: z.infer<typeof addArticleSchema>) => {
 };
 
 //Update Article
-export const updateArticle = async (values: z.infer<typeof editArticleSchema>) => {
+export const updateArticle = async (
+  values: z.infer<typeof editArticleSchema>
+) => {
   const result = editArticleSchema.safeParse(values);
   if (!result.success) {
     return {
