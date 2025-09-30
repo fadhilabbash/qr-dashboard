@@ -73,7 +73,7 @@ const ChangeUserPassword = ({ row }: ChangeUserPasswordProps) => {
           تغيير كلمة المرور
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[720px]">
+    <DialogContent className="sm:max-w-[720px]" onInteractOutside={(event) => event.preventDefault()} >
         <DialogHeader>
           <DialogTitle>تغيير كلمة المرور</DialogTitle>
         </DialogHeader>

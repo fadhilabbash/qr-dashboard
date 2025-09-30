@@ -52,14 +52,14 @@ const LoginForm = ({ className, error }: LoginFormProps) => {
         <CardHeader>
           <CardTitle className="text-2xl">تسجيل الدخول</CardTitle>
           <CardDescription>
-            أدخل اسم المستخدم وكلمة المرور لتسجيل الدخول إلى حسابك.
+            أدخل البريد الالكتروني وكلمة المرور لتسجيل الدخول إلى حسابك.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {error && (
             <div className="text-[12px] text-destructive mb-4">
               {error === "CredentialsSignin"
-                ? "خطأ في  اسم المستخدم أو كلمة المرور"
+                ? "خطأ في  البريد الالكتروني  أو كلمة المرور"
                 : error}
             </div>
           )}

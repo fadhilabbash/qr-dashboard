@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-
-import { YouTubeEmbed } from "@next/third-parties/google";
 import {
   Dialog,
   DialogClose,
@@ -14,14 +12,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Video } from "@/lib/definitions";
+import { Article } from "@/lib/definitions";
 import { Eye } from "lucide-react";
+import Image from "next/image";
 
-interface ShowVideoProps {
-  row: Video;
+interface ShowArticleProps {
+  row: Article;
 }
 
-const ShowVideo = ({ row }: ShowVideoProps) => {
+const ShowArticle = ({ row }: ShowArticleProps) => {
   const [open, setOpen] = useState(false);
   const handleOpenChange = (newState: boolean) => {
     setOpen(newState);
@@ -38,10 +37,27 @@ const ShowVideo = ({ row }: ShowVideoProps) => {
         <DialogHeader>
           <DialogTitle>عرض</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="text-[12px] text-destructive">
-          {}
-        </DialogDescription>
-        <YouTubeEmbed videoid={row.video_id} />
+
+        <div className="space-y-1 mb-4">
+          <h2 className="text-lg font-semibold">{row.title}</h2>
+          <p className="text-xs text-muted-foreground">{row.date}</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="relative w-full h-60 md:h-80">
+            <Image
+              src={row.image_url ?? "/empty.jpg"}
+              alt="Post image"
+              className="rounded-lg object-cover"
+              fill
+              unoptimized
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 max-h-80 overflow-y-auto border rounded-lg p-3 bg-muted/30">
+            <p className="text-sm leading-relaxed">{row.text}</p>
+          </div>
+        </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" className="mt-2" variant="outline">
@@ -53,4 +69,4 @@ const ShowVideo = ({ row }: ShowVideoProps) => {
     </Dialog>
   );
 };
-export default ShowVideo;
+export default ShowArticle;

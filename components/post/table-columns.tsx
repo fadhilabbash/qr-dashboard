@@ -9,6 +9,7 @@ import EditPost from "./edit-post";
 import { deletePost } from "@/services/actions/post-actions";
 import { TableRowImage } from "../common/table-row-image";
 import { avatar } from "@/lib/placeholder";
+import ShowPost from "./show-post";
 
 // Columns definition
 export const tableColumns: ColumnDef<Post>[] = [
@@ -50,6 +51,7 @@ export const tableColumns: ColumnDef<Post>[] = [
       return (
         <div className="flex items-center gap-2">
           <EditPost row={row.original} tagOptions={tags ?? []} />
+           <ShowPost row={row.original} />
           <div className="ps-2">
             <DeleteDialog
               icon={<Trash2 className="h-4 w-4" />}

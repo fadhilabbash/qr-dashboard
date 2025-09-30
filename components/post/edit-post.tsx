@@ -55,7 +55,7 @@ const EditPost = ({ row, tagOptions }: UpdatePostProps) => {
       id: row.id,
       image_url: row.image_url ?? undefined,
       title: row.title,
-      text: row.text,
+       text: row.text ?? "",
       date: row.date,
       tag_id: row.tag.id.toString(),
     },
@@ -71,19 +71,22 @@ const EditPost = ({ row, tagOptions }: UpdatePostProps) => {
         SuccessToast(result.message || ".تمت الاضافة بنجاح");
         setError("");
         setOpen(false);
-        form.reset();
+        form.reset(values);
       }
     });
   };
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+  };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="cursor-pointer">
           <Edit />
           تعديل
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[720px]">
+    <DialogContent className="sm:max-w-[720px]" onInteractOutside={(event) => event.preventDefault()} >
         <DialogHeader>
           <DialogTitle>تعديل</DialogTitle>
         </DialogHeader>
@@ -176,6 +179,7 @@ const EditPost = ({ row, tagOptions }: UpdatePostProps) => {
                     <Textarea
                       {...field}
                       value={field.value ?? ""}
+                       onChange={(e) => field.onChange(e.target.value || "")} 
                       className="resize-none h-[8rem] overflow-y-auto"
                     />
                   </FormControl>

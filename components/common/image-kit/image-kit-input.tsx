@@ -168,7 +168,7 @@ const ImageKit: React.FC<ImageKitProps> = ({ value, onChange, folder }) => {
               type="button"
               onClick={handleBrowse}
               variant="link"
-              className="cursor-pointer "
+              className="cursor-pointer"
             >
               تصفح
             </Button>
@@ -193,11 +193,11 @@ const ImageKit: React.FC<ImageKitProps> = ({ value, onChange, folder }) => {
             className="size-8 cursor-pointer"
             disabled={!preview}
           >
-            <UploadCloud size={24} color="blue" />
+            <UploadCloud size={24}  />
           </Button>
           {uploadedUrl ? (
             <>
-              <CheckCircle size={18} color="green" />
+              <CheckCircle size={18} />
             </>
           ) : null}
 
@@ -209,7 +209,7 @@ const ImageKit: React.FC<ImageKitProps> = ({ value, onChange, folder }) => {
             className="size-8 cursor-pointer"
             disabled={!preview}
           >
-            <Trash2 size={24} color="red" />
+            <Trash2 size={24} />
           </Button>
         </div>
         <Progress value={progress} className="w-full h-[2px]" />

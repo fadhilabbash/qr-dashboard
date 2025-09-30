@@ -9,6 +9,7 @@ import EditArticle from "./edit-article";
 import { deleteArticle } from "@/services/actions/article-actions";
 import { TableRowImage } from "../common/table-row-image";
 import { avatar } from "@/lib/placeholder";
+import ShowArticle from "./show-article";
 
 
 // Columns definition
@@ -51,6 +52,7 @@ export const tableColumns: ColumnDef<Article>[] = [
       return (
         <div className="flex items-center gap-2">
          <EditArticle row={row.original} tagOptions={tags ?? []} />
+          <ShowArticle row={row.original} />
           <div className="ps-2">
             <DeleteDialog
               icon={<Trash2 className="h-4 w-4" />}

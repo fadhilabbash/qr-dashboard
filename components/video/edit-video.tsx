@@ -68,19 +68,22 @@ const EditVideo = ({ row, tagOptions }: UpdateVideoProps) => {
         SuccessToast(result.message || ".تمت الاضافة بنجاح");
         setError("");
         setOpen(false);
-        form.reset();
+        form.reset(values);
       }
     });
   };
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+  };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="cursor-pointer">
           <Edit />
           تعديل
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[720px]">
+    <DialogContent className="sm:max-w-[720px]" onInteractOutside={(event) => event.preventDefault()} >
         <DialogHeader>
           <DialogTitle>تعديل</DialogTitle>
         </DialogHeader>

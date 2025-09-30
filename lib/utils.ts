@@ -34,7 +34,7 @@ export function geTagTypeLabel(value: string): string {
   const names: Record<string, string> = {
     post: "منشور",
     video: "فيديو",
-    articles: "مقال",
+    article: "مقال",
   };
   return names[value] || "";
 }

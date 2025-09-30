@@ -40,16 +40,19 @@ export const getReport = async (values: z.infer<typeof reportSchema>) => {
 };
 
 export const getReportLastThreeMonths = async () => {
-  const now = new Date();
-  const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(now.getMonth() - 3);
-  const formatDate = (date: Date) => date.toISOString().split("T")[0];
+  // const now = new Date();
+  //const threeMonthsAgo = new Date();
+  //threeMonthsAgo.setMonth(now.getMonth() - 3);
+  //const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-  const params = new URLSearchParams({
-    from_date: formatDate(threeMonthsAgo),
-    to_date: formatDate(now),
+  // const params = new URLSearchParams({
+  //   from_date: formatDate(threeMonthsAgo),
+  //   to_date: formatDate(now),
+  // });
+
+  //const endpoint = `${ENDPOINTS.report}?${params.toString()}`;
+  const response = await apiClientAuth<ReportData>(ENDPOINTS.report, {
+    method: "GET",
   });
-  const endpoint = `${ENDPOINTS.report}?${params.toString()}`;
-  const response = await apiClientAuth<ReportData>(endpoint, { method: "GET" });
   return response;
 };

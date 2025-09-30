@@ -74,10 +74,21 @@ export interface Report {
   to_date: Date;
 }
 export interface ReportData {
-  posts: number;
-  articles: number;
-  videos: number;
+  totals: {
+    posts: number;
+    articles: number;
+    videos: number;
+  };
+  tags: TagReport[];
 }
+
+export interface TagReport {
+  tag_id: number;
+  tag_name: string;
+  type: "post" | "article" | "video";
+  count: number;
+}
+
 
 type Pagination = {
   total: number;

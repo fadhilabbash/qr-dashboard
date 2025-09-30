@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import HomeChart from "@/components/home/home-chart";
+import ContentOverview from "@/components/common/content-overview";
 import { getReportLastThreeMonths } from "@/services/actions/report-actions";
 
 const HomePage = async () => {
@@ -27,7 +27,7 @@ const HomePage = async () => {
 
       {session?.user.user_info?.roles[0].name === "admin" && (
         <div>
-          <HomeChart data={response.data} />
+          <ContentOverview data={response.data}/>
         </div>
       )}
     </div>

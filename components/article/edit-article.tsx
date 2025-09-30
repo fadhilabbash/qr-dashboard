@@ -53,7 +53,7 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
     resolver: zodResolver(editArticleSchema),
     defaultValues: {
       id: row.id,
-        image_url: row.image_url ?? undefined,
+      image_url: row.image_url ?? undefined,
       title: row.title,
       text: row.text,
       date: row.date,
@@ -71,19 +71,22 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
         SuccessToast(result.message || ".تمت الاضافة بنجاح");
         setError("");
         setOpen(false);
-        form.reset();
+        form.reset(values);
       }
     });
   };
+  const handleOpenChange = (newState: boolean) => {
+    setOpen(newState);
+  };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="cursor-pointer">
           <Edit />
           تعديل
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[720px]">
+    <DialogContent className="sm:max-w-[720px]" onInteractOutside={(event) => event.preventDefault()} >
         <DialogHeader>
           <DialogTitle>تعديل</DialogTitle>
         </DialogHeader>
@@ -93,7 +96,7 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <input type="hidden" {...form.register("id")} />
-             <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="grid w-full max-w-sm items-center gap-1.5">
               <FormField
                 control={form.control}
                 name="image_url"
@@ -167,7 +170,7 @@ const EditArticle = ({ row, tagOptions }: UpdateArticleProps) => {
               />
             </div>
 
-              <FormField
+            <FormField
               control={form.control}
               name="text"
               render={({ field }) => (

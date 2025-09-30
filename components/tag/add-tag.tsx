@@ -74,7 +74,7 @@ const AddTag = () => {
           <PlusCircle /> اضافة
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[720px]">
+    <DialogContent className="sm:max-w-[720px]" onInteractOutside={(event) => event.preventDefault()} >
         <DialogHeader>
           <DialogTitle>اضافة</DialogTitle>
         </DialogHeader>
