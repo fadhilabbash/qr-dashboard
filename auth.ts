@@ -33,8 +33,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    authorized({ auth }) {
-      return !!auth?.user;
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      if (!isLoggedIn) {
+        return false;
+      }
+      const pathname = nextUrl.pathname;
+      const adminRoutes = sidebarLinks
+        .filter((link) => link.role === "admin")
+        .map((link) => link.url);
+
+      const isAdminRoute = adminRoutes.some((route) =>
+        pathname.startsWith(route)
+      );
+      if (isAdminRoute) {
+        const roles: string[] =
+          auth.user.user_info?.roles?.map((r) => r.name) ?? [];
+        if (!roles.includes("admin")) {
+          return Response.redirect(new URL("/", nextUrl));
+        }
+      }
+      return true;
     },
     async jwt({ token, user }) {
       if (user) {
@@ -82,6 +101,7 @@ declare module "next-auth" {
 }
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { JWT } from "next-auth/jwt";
+import { sidebarLinks } from "./lib/placeholder";
 declare module "next-auth/jwt" {
   interface JWT {
     access_token: string;

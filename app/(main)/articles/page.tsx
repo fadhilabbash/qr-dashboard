@@ -2,8 +2,6 @@ import { PaginationWithLinks } from "@/components/common/pagination-with-links";
 import { DataTable } from "@/components/common/data-table";
 import { tableColumns } from "@/components/article/table-columns";
 import { SearchInput } from "@/components/common/search-input";
-import { auth } from "@/auth";
-
 import { getTagsByType } from "@/services/actions/tag-actions";
 import { getArticles } from "@/services/actions/article-actions";
 import AddArticle from "@/components/article/add-article";
@@ -22,51 +20,37 @@ const ArticlesPage = async ({ searchParams }: SearchParamsProps) => {
   const term = params?.search ?? "";
   const tag = params?.tag ?? 0;
   const currentPage = Number(params?.page) || 1;
-  const ArticlesResponse = await getArticles(currentPage, term, tag);
+  const articlesResponse = await getArticles(currentPage, term, tag);
   const tagsResponse = await getTagsByType(TagType.Article);
-  if (ArticlesResponse.status === "error" || tagsResponse.status === "error") {
+  if (articlesResponse.status === "error" || tagsResponse.status === "error") {
     return (
       <div className="flex items-center justify-center  min-h-screen">
-        <p className="text-red-500">فشل في تحميل البيانات</p>
+        <p className="text-red-500">{articlesResponse.message}</p>
       </div>
     );
   }
-  const session = await auth();
   return (
     <div className="grid grid-cols-1 gap-4 p-2">
-      {session?.user.user_info?.roles[0].name !== "admin" && (
-        <div className="p-4 bg-yellow-100 text-yellow-800 rounded-md">
-          <p>
-            تنبيه: ليس لديك صلاحيات المسؤول للوصول إلى جميع ميزات إدارة
-            المستخدمين.
-          </p>
-        </div>
-      )}
+      <div>
+        <DataTable
+          columns={tableColumns}
+          data={articlesResponse.data}
+          pageSize={articlesResponse.pagination?.per_page ?? 1}
+          exData={tagsResponse.data}
+        >
+          <AddArticle tagOptions={tagsResponse.data} />
+          <SearchInput />
+          <FilterInput tagOptions={tagsResponse.data} />
+        </DataTable>
+      </div>
 
-      {session?.user.user_info?.roles[0].name === "admin" && (
-        <>
-          <div>
-            <DataTable
-              columns={tableColumns}
-              data={ArticlesResponse.data}
-              pageSize={ArticlesResponse.pagination?.per_page ?? 1}
-              exData={tagsResponse.data}
-            >
-              <AddArticle tagOptions={tagsResponse.data} />
-              <SearchInput />
-              <FilterInput tagOptions={tagsResponse.data} />
-            </DataTable>
-          </div>
-
-          <div>
-            <PaginationWithLinks
-              page={currentPage}
-              pageSize={ArticlesResponse.pagination?.per_page ?? 1}
-              totalCount={ArticlesResponse.pagination?.total ?? 1}
-            />
-          </div>
-        </>
-      )}
+      <div>
+        <PaginationWithLinks
+          page={currentPage}
+          pageSize={articlesResponse.pagination?.per_page ?? 1}
+          totalCount={articlesResponse.pagination?.total ?? 1}
+        />
+      </div>
     </div>
   );
 };

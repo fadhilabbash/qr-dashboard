@@ -1,5 +1,5 @@
 "use client";
-//import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import {
   Sidebar,
   SidebarContent,
@@ -13,14 +13,12 @@ import {
 } from "@/components/ui/sidebar";
 import { sidebarLinks } from "@/lib/placeholder";
 import { NavUser } from "./nav-user";
-import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-// Menu items.
 
 export function AppSidebar() {
   const { data: session } = useSession();
   const baseFileUrl = process.env.NEXT_PUBLIC_FILE_URL;
+  const userRoles = session?.user.user_info?.roles.map((r) => r.name) ?? [];
   return (
     <Sidebar side="right">
       <SidebarHeader>
@@ -36,19 +34,21 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          {/* <SidebarGroupLabel>BAUHUS</SidebarGroupLabel> */}
+          {/* <SidebarGroupLabel>qr</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
-              {sidebarLinks.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {sidebarLinks
+                .filter((item) => !item.role || userRoles.includes(item.role))
+                .map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <a href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

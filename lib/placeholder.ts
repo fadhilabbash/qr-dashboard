@@ -14,6 +14,7 @@ export const sidebarLinks = [
     title: "المستخدمين",
     url: "/users",
     icon: Users,
+    role: "admin",
   },
   {
     title: "الاصناف",
