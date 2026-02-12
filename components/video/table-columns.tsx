@@ -25,18 +25,18 @@ export const tableColumns: ColumnDef<Video>[] = [
   {
     accessorKey: "video_id",
     header: "معرف الفديو",
-    meta: { displayName: "العنوان" },
+    meta: { displayName:"معرف الفديو" },
   },
   {
     accessorKey: "tag.name",
     header: "الصنف",
-    meta: { displayName: "العنوان" },
+    meta: { displayName:  "الصنف" },
   },
 
   {
     accessorKey: "date",
     header: "التاريخ",
-    meta: { displayName: "العنوان" },
+    meta: { displayName:  "التاريخ" },
   },
   {
     accessorKey: "image",

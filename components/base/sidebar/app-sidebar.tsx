@@ -14,6 +14,7 @@ import {
 import { sidebarLinks } from "@/lib/placeholder";
 import { NavUser } from "./nav-user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export function AppSidebar() {
   const { data: session } = useSession();
@@ -42,10 +43,10 @@ export function AppSidebar() {
                 .map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a href={item.url}>
+                      <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
