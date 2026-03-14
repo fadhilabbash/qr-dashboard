@@ -18,6 +18,7 @@ export enum TagType {
 export interface Role {
   id: number;
   name: string;
+  label: string;
 }
 export interface User {
   id: number;

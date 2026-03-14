@@ -25,10 +25,7 @@ const UsersPage = async ({ searchParams }: SearchParamsProps) => {
       </div>
     );
   }
-  const roleOptions = rolesResponse.data.map((role) => ({
-    id: role.id,
-    name: getRoleLabel(role.name),
-  }));
+
 
   return (
     <div className="grid grid-cols-1 gap-4 p-2">
@@ -36,10 +33,10 @@ const UsersPage = async ({ searchParams }: SearchParamsProps) => {
         <DataTable
           columns={tableColumns}
           data={usersResponse.data}
-          exData={roleOptions}
+          exData={rolesResponse.data}
           pageSize={usersResponse.pagination?.per_page ?? 1}
         >
-          <AddUser roleOptions={roleOptions} />
+          <AddUser roleOptions={rolesResponse.data} />
           <SearchInput />
         </DataTable>
       </div>

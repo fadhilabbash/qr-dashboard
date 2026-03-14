@@ -61,6 +61,7 @@ const EditUser = ({ row, roleOptions }: UpdateUserProps) => {
         SuccessToast(result.message || ".تمت الاضافة بنجاح");
         setError("");
         setOpen(false);
+        form.reset();
       }
     });
   };
